@@ -26,7 +26,7 @@ int zamien(char liczba[])
 		i++;
 	}
 	
-	while (liczba[i] >= 48 && liczba[i] <= 57 && i < strlen(liczba))
+	while (liczba[i] >= 48 && liczba[i] <= 57 && i < strlen(liczba)) // dopoki znak ma reprezentacje dziesietna w postaci cyfry od 0 do 9
 	{
 		wynik = wynik * 10 + liczba[i] - '0';
 		i++;
