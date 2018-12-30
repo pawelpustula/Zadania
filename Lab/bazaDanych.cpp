@@ -22,7 +22,7 @@ struct Ksiazka
 	string tytul;
 	Autor autor; 
 	Wydawnictwo w;
-	Ksiazka *kolejna = nullptr;
+	Ksiazka *kolejna;
 	void drukuj();
 };
 
@@ -67,6 +67,7 @@ void Ksiegozbior::dodaj(Autor a, string tytul, Wydawnictwo w)
 	(Nowa->autor).imie = a.imie;
 	(Nowa->autor).nazwisko = a.nazwisko;
 	Nowa->w = w;
+	Nowa->kolejna = nullptr;
 
 	if (pierwsza == nullptr)
 		pierwsza = Nowa;
@@ -125,22 +126,15 @@ void Ksiegozbior::usun(string tytul)
 
 Ksiazka * Ksiegozbior::szukaj(string tytul)
 {
-	Ksiazka *wczesniejsza = nullptr, *biezaca = nullptr;
+	Ksiazka *biezaca = pierwsza;
 
-	if (pierwsza->tytul == tytul)                         // pierwszy element
-		return pierwsza;
-
-	wczesniejsza = pierwsza;
-	biezaca = pierwsza->kolejna;
-	while (biezaca->tytul != tytul)
+	while (biezaca != nullptr)
 	{
-		wczesniejsza = biezaca;
+		if (biezaca->tytul == tytul)
+			return biezaca;
 		biezaca = biezaca->kolejna;
 	}
-	if (biezaca->kolejna == nullptr)                     // ostatni element
-		return biezaca;
-
-	return biezaca;                                      // wewnetrzny element
+	return nullptr;
 }
 
 int main()
@@ -159,8 +153,13 @@ int main()
 	mojeKsiazki.drukuj();
 
 	szukana = mojeKsiazki.szukaj("Wesele");
-	cout << endl << "Znaleziono szukana ksiazke:" << endl << endl;
-	szukana->drukuj();
+	if (szukana != nullptr)
+	{
+		cout << endl << "Znaleziono szukana ksiazke:" << endl << endl;
+		szukana->drukuj();
+	}
+	else
+		cout << endl << "Nie znaleziono szukanej ksiazki." << endl;
 	
 	cout << endl;
 	system("pause");
