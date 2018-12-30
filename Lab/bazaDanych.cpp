@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-
 using namespace std;
 
 enum class Wydawnictwo { PWN, Helion, Operon, NowaEra, WSIP};
@@ -12,11 +11,6 @@ struct Autor
 	void drukuj();
 };
 
-void Autor::drukuj() 
-{
-	cout << imie << " " << nazwisko;
-}
-
 struct Ksiazka 
 {
 	string tytul;
@@ -26,10 +20,54 @@ struct Ksiazka
 	void drukuj();
 };
 
-void Ksiazka::drukuj() 
+struct Ksiegozbior 
+{
+	Ksiazka *pierwsza;
+	Ksiazka *szukaj(string tytul);
+	void dodaj(Autor a, string tytul, Wydawnictwo w);
+	void usun(string tytul);
+	void drukuj();
+};
+
+
+int main()
+{
+	Ksiegozbior mojeKsiazki;
+	mojeKsiazki.pierwsza = nullptr;
+	Ksiazka *szukana = nullptr;
+
+	mojeKsiazki.dodaj(Autor{ "Adam", "Mickiewicz" }, "Pan Tadeusz", Wydawnictwo::PWN);
+	mojeKsiazki.dodaj(Autor{ "Boleslaw", "Prus" }, "Lalka", Wydawnictwo::NowaEra);
+	mojeKsiazki.dodaj(Autor{ "Stanislaw", "Wyspianski" }, "Wesele", Wydawnictwo::Helion);
+	mojeKsiazki.drukuj();
+
+	mojeKsiazki.usun("Lalka");
+	cout << endl << "Po usunieciu:" << endl << endl;
+	mojeKsiazki.drukuj();
+
+	szukana = mojeKsiazki.szukaj("Wesele");
+	if (szukana != nullptr)
+	{
+		cout << endl << "Znaleziono szukana ksiazke:" << endl << endl;
+		szukana->drukuj();
+	}
+	else
+		cout << endl << "Nie znaleziono szukanej ksiazki." << endl;
+	
+	cout << endl;
+	system("pause");
+}
+
+
+void Autor::drukuj()
+{
+	cout << imie << " " << nazwisko;
+}
+
+void Ksiazka::drukuj()
 {
 	cout << autor.imie << " " << autor.nazwisko << "  " << tytul << "  ";
-	
+
 	switch (w)
 	{
 	case Wydawnictwo::PWN:
@@ -49,15 +87,6 @@ void Ksiazka::drukuj()
 		break;
 	}
 }
-
-struct Ksiegozbior 
-{
-	Ksiazka *pierwsza;
-	Ksiazka *szukaj(string tytul);
-	void dodaj(Autor a, string tytul, Wydawnictwo w);
-	void usun(string tytul);
-	void drukuj();
-};
 
 void Ksiegozbior::dodaj(Autor a, string tytul, Wydawnictwo w)
 {
@@ -135,32 +164,4 @@ Ksiazka * Ksiegozbior::szukaj(string tytul)
 		biezaca = biezaca->kolejna;
 	}
 	return nullptr;
-}
-
-int main()
-{
-	Ksiegozbior mojeKsiazki;
-	mojeKsiazki.pierwsza = nullptr;
-	Ksiazka *szukana = nullptr;
-
-	mojeKsiazki.dodaj(Autor{ "Adam", "Mickiewicz" }, "Pan Tadeusz", Wydawnictwo::PWN);
-	mojeKsiazki.dodaj(Autor{ "Boleslaw", "Prus" }, "Lalka", Wydawnictwo::NowaEra);
-	mojeKsiazki.dodaj(Autor{ "Stanislaw", "Wyspianski" }, "Wesele", Wydawnictwo::Helion);
-	mojeKsiazki.drukuj();
-
-	mojeKsiazki.usun("Lalka");
-	cout << endl << "Po usunieciu:" << endl << endl;
-	mojeKsiazki.drukuj();
-
-	szukana = mojeKsiazki.szukaj("Wesele");
-	if (szukana != nullptr)
-	{
-		cout << endl << "Znaleziono szukana ksiazke:" << endl << endl;
-		szukana->drukuj();
-	}
-	else
-		cout << endl << "Nie znaleziono szukanej ksiazki." << endl;
-	
-	cout << endl;
-	system("pause");
 }
