@@ -26,13 +26,13 @@ int main(int argc, char *argv[])
 
 void szyfrowanie(string pA, string pB, int przesuniecie)
 {
-	ifstream doZakodowania(pA, ios::ate);
+	ifstream doZakodowania(pA, ios::ate);                  // ustawienie na koniec pliku
 	ofstream odkodowany{ "odkodowany.txt" };
 	fstream zakodowany(pB);
 	if (doZakodowania.is_open() && zakodowany.is_open() && odkodowany.is_open())
 	{
 		char z;
-		int n = doZakodowania.tellg();                  // ilosc znakow w pliku doZakodowania
+		int n = doZakodowania.tellg();                  // ilosc znakow w pliku
 		doZakodowania.seekg(0, ios::beg);               // ustawienie na poczatek pliku
 		int i = 0;
 		if (przesuniecie >= 0)                          // kodowanie 
