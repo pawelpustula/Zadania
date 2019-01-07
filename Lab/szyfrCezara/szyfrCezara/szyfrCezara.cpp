@@ -3,20 +3,16 @@
 #include <fstream>
 
 using namespace std;
-// pA - plik, z ktorego odczytujemy - tekst.txt
-// pB - plik do zapisu - zakodowany.txt
-// przesuniecie - klucz = 7
 
-void szyfrowanie (string pA, string pB, int przesuniecie)           // otworzyc plik do czytania, sprawdzic ile ma znakow np. ustawiajac kurors na koncu instrukcja tellg, utworzyc tablice znakow, gdzie je wpiszemy, 
-                                                                    //przeksztalcic tablice znakow szyfrem i wpisac do nowego pliku
+void szyfrowanie(string pA, string pB, int przesuniecie);
 
-int main(int argc, char *argv[]) // argc - liczba argumentow w linii polecen
+int main(int argc, char *argv[]) 
 {
 	if (argc < 4)
 	{
 		cout << "Za mala liczba parametrow. Poprawna liczba parametrow to 4. " << endl;
 		cout << "parametr 1 - nazwa programu" << endl;
-		cout << "parametr 2 - nazwa pliku do szyforwania/deszyfrowania" << endl;
+		cout << "parametr 2 - nazwa pliku do szyfrowania/deszyfrowania" << endl;
 		cout << "parametr 3 - nazwa pliku do wpisania zaszyfrowanego/odszyfrowanego tekstu" << endl;
 		cout << "parametr 4 klucz" << endl;
 	}
@@ -30,30 +26,39 @@ int main(int argc, char *argv[]) // argc - liczba argumentow w linii polecen
 
 void szyfrowanie(string pA, string pB, int przesuniecie)
 {
-	ifstream odczyt;
-	ofstream zapis;
-	char tab[100] = {};
-	zapis << pA;
-	odczyt.open("doZakodowania.txt", ios::in);
-	if (odczyt.is_open())
+	ifstream doZakodowania(pA, ios::ate);
+	ofstream odkodowany{ "odkodowany.txt" };
+	fstream zakodowany(pB);
+	if (doZakodowania.is_open() && zakodowany.is_open() && odkodowany.is_open())
 	{
-		while (!odczyt.eof())
+		char z;
+		int n = doZakodowania.tellg();                  // ilosc znakow w pliku doZakodowania
+		doZakodowania.seekg(0, ios::beg);               // ustawienie na poczatek pliku
+		int i = 0;
+		if (przesuniecie >= 0)                          // kodowanie 
 		{
-			getline(odczyt, pA);
+			while (i < n)
+			{
+					doZakodowania.get(z);
+					z += przesuniecie;
+					zakodowany << z;
+					i++;
+			}
+		}
+		else                                           // dekodowanie
+		{
+			while (i < n)
+			{
+					zakodowany.get(z);
+					z += przesuniecie;
+					odkodowany << z;
+					i++;
+			}
 		}
 	}
 	else
-		cout << "Nie mozna otworzyc pliku." << endl;
-	odczyt.close();
-
-
-
-
-
-
-
-
-	zapis.close();
-	odczyt.close();
-
+		cout << "Nie mozna otworzyc plikow." << endl;
+	doZakodowania.close();
+	odkodowany.close();
+	zakodowany.close();
 }
