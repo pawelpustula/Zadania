@@ -1,0 +1,3 @@
+Pochodna dyskretna policzona metoda ilorazu roznicowego wstecznego: 68
+Pochodna dyskretna policzona metoda ilorazu roznicowego przedniego: 22.6667
+Pochodna dyskretna policzona metoda ilorazu roznicowego centralnego: 45.3333
