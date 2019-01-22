@@ -1,0 +1,3 @@
+n - liczba punktów
+
+W przyk³adzie obliczona jest ca³ka od 0 do pi z funkcji sin(x), jej dok³adny wynik to 2, program wyliczy³ j¹ jako 1,89611, czyli dosyæ blisko. Jeœli chcia³bym zwiêkszyæ dok³adnoœæ, to musia³bym zsumowaæ wiêcej prostok¹tów.
